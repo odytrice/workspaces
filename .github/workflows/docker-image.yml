@@ -1,0 +1,42 @@
+name: Deploy Workspace
+
+on:
+  push:
+    branches: [ main ]
+
+
+# Environment variables available to all jobs and steps in this workflow
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  GITHUB_SHA: ${{ github.sha }}
+  IMAGE: odytrice/workspace
+
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    # Checkout Repository
+    - name: Checkout
+      uses: actions/checkout@v2    
+                
+    # Configure docker to use the gcloud command-line tool as a credential helper
+    - name: Docker Authenticate
+      run: |
+        docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      
+    # Build the Docker image
+    - name: Build
+      run: |        
+        docker build -t "$IMAGE":"$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" \
+          --build-arg GITHUB_REF="$GITHUB_REF" .
+           
+    # Push the Docker image to Google Container Registry
+    - name: Publish
+      run: |
+        docker push $IMAGE:$GITHUB_SHA
