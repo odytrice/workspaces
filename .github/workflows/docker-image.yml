@@ -32,8 +32,7 @@ jobs:
     - name: Build Combined Workspace
       run: |
         docker build \
-          --tag "$IMAGE:latest" \
-          --tag "$IMAGE:$GITHUB_SHA" .
+          --tag "$IMAGE:latest" .
 
     - name: Build Python Workspace
       run: |
