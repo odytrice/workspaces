@@ -18,25 +18,45 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    
+
     steps:
     # Checkout Repository
     - name: Checkout
-      uses: actions/checkout@v2    
-                
+      uses: actions/checkout@v2
+
     # Configure docker to use the gcloud command-line tool as a credential helper
     - name: Docker Authenticate
       run: |
         docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-      
-    # Build the Docker image
-    - name: Build
-      run: |        
+
+    - name: Build Combined Workspace
+      run: |
         docker build \
           --tag "$IMAGE:latest" \
           --tag "$IMAGE:$GITHUB_SHA" .
-           
+
+    - name: Build Python Workspace
+      run: |
+        docker build \
+          --file python.Dockerfile \
+          --tag "$IMAGE:python" .
+
+    - name: Build NodeJS Workspace
+      run: |
+        docker build \
+          --file nodejs.Dockerfile \
+          --tag "$IMAGE:nodejs" .
+
+    - name: Build DotNet Workspace
+      run: |
+        docker build \
+          --file dotnet.Dockerfile \
+          --tag "$IMAGE:dotnet" .
+
     # Push the Docker image to Google Container Registry
     - name: Publish
       run: |
         docker push "$IMAGE:latest"
+        docker push "$IMAGE:python"
+        docker push "$IMAGE:nodejs"
+        docker push "$IMAGE:dotnet"
