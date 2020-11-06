@@ -31,7 +31,7 @@ RUN apt-get install -y nodejs \
 # Install pip
 RUN alias python=python3 \
   && apt-get install -y python3-pip \
-  && pip install virtual-env
+  && pip install virtualenv
 
 # Install dotnet
 RUN curl -sSL https://dot.net/v1/dotnet-install.sh -o ./dotnet-install.sh \
