@@ -1,2 +1,2 @@
-# workspaces
-Repository to hold Dev Workspace Container Images
+# Workspaces
+Repository to hold Visual Studio Code Development Workspace Container Images
