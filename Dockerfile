@@ -28,6 +28,9 @@ RUN apt-get install -y docker-compose
 RUN apt-get install -y nodejs \
   && apt-get install -y npm
 
+# Install SQLite
+RUN apt-get install sqlite3 libsqlite3-dev
+
 # Install pip
 RUN alias python=python3 \
   && apt-get install -y python3-pip \
