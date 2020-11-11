@@ -24,6 +24,9 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
 # Install Docker Tools
 RUN apt-get install -y docker-compose
 
+# Install SQLite (useful for django applications)
+RUN apt-get install sqlite3 libsqlite3-dev
+
 # Install pip
 RUN alias python=python3 \
   && apt-get install -y python3-pip \
