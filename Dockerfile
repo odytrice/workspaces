@@ -24,12 +24,18 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
 # Install Docker Tools
 RUN apt-get install -y docker-compose
 
+# Install SQLite
+RUN apt-get install sqlite3 libsqlite3-dev
+
 # Install NodeJs and npm
 RUN apt-get install -y nodejs \
   && apt-get install -y npm
 
-# Install SQLite
-RUN apt-get install sqlite3 libsqlite3-dev
+# Install Yarn
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+  && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
+  && apt update \
+  && apt install --no-install-recommends yarn
 
 # Install pip
 RUN alias python=python3 \
