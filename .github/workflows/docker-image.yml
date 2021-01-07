@@ -12,7 +12,6 @@ env:
   GITHUB_SHA: ${{ github.sha }}
   IMAGE: odytrice/workspace
 
-
 jobs:
 
   build:
@@ -46,6 +45,12 @@ jobs:
           --file nodejs.Dockerfile \
           --tag "$IMAGE:nodejs" .
 
+    - name: Build Go Workspace
+      run: |
+        docker build \
+          --file go.Dockerfile \
+          --tag "$IMAGE:go" .
+
     - name: Build DotNet Workspace
       run: |
         docker build \
@@ -58,4 +63,5 @@ jobs:
         docker push "$IMAGE:latest"
         docker push "$IMAGE:python"
         docker push "$IMAGE:nodejs"
+        docker push "$IMAGE:go"
         docker push "$IMAGE:dotnet"
