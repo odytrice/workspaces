@@ -35,6 +35,7 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
 
 # Install Docker Tools
 RUN apt-get install -y docker-compose
+RUN usermod -aG docker $USERNAME
 
 # Install SQLite
 RUN apt-get install sqlite3 libsqlite3-dev
